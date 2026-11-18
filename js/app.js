@@ -55,15 +55,10 @@
   }
 
   $("playBtn").addEventListener("click", async () => {
+    // Inicia a música no primeiro clique da experiência
+    if (Sete.playMusic) Sete.playMusic();
+
     introItems.forEach((id) => $(id).classList.add("out"));
-    await sleep(900);
-    leader.hidden = false;
-    const num = leader.querySelector(".num");
-    for (let n = 7; n >= 1; n--) {            // um número por mês
-      num.textContent = n;
-      num.classList.remove("tick"); void num.offsetWidth; num.classList.add("tick");
-      await sleep(750);
-    }
     leader.hidden = true;
     title.hidden = false;
     await sleep(3200);

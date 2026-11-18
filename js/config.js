@@ -39,11 +39,11 @@ Sete.config = {
   /* MÚSICA — preencha "arquivo" (ex.: "assets/musica/nossa-musica.mp3").
      Vazio = a seção Trilha simplesmente não aparece.
      Use só arquivos que você tem direito de usar. */
-  musica: { titulo: "Nossa música", artista: "", arquivo: "" },
+  musica: { titulo: "Amor Livre", artista: "Felipe Ret", arquivo: "assets/musica/nossa-musica.mp3" },
 
   /* CARTA — cada item é um parágrafo. Reescreva com a sua voz. */
   carta: [
-     [
+
     "Mozao,",
 
     "Sete meses. A gente se conheceu pelas redes sociais e tudo aconteceu tão rápido que, às vezes, eu paro pra pensar em como alguém que chegou na minha vida há tão pouco tempo conseguiu se tornar tão importante.",
@@ -60,7 +60,6 @@ Sete.config = {
 
     "Do seu mozin. ❤️"
 ],
-  ],
 
   /* CRÉDITOS FINAIS — { cargo, nome } */
   creditos: [
