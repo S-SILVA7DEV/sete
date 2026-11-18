@@ -1,0 +1,87 @@
+/* ===== Estrutura das seções ===== */
+.scene {
+  position: fixed; inset: 0; z-index: 10;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 1.4rem;
+  padding: calc(var(--header) + env(safe-area-inset-top) + 1rem) var(--gx) calc(var(--footer) + env(safe-area-inset-bottom) + 1.5rem);
+  overflow-y: auto; opacity: 0; visibility: hidden;
+  transition: opacity .7s ease, visibility 0s .7s;
+}
+.scene.active { opacity: 1; visibility: visible; transition-delay: 0s; }
+/* Espaçadores: centralizam na vertical e, se faltar espaço, deixam rolar sem cortar o topo */
+.scene::before, .scene::after { content: ""; flex: 1 0 0; min-height: 0; }
+.scene > * { max-width: 100%; opacity: 0; transform: translateY(8px); transition: opacity .8s ease, transform .8s ease; }
+.scene.active > * { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * .12s + .25s); }
+.scene > .out { opacity: 0 !important; transform: none !important; transition-delay: 0s !important; pointer-events: none; }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+
+/* ===== Abertura ===== */
+.leader .num { display: block; font: 200 clamp(9rem, 42vw, 20rem)/1 var(--serif); font-variant-numeric: lining-nums; }
+.num.tick { animation: count .75s ease both; }
+@keyframes count { from { opacity: 0; } 25% { opacity: 1; } to { opacity: 0; } }
+.titlecard { animation: fadein 1.6s ease both; }
+.titlecard h1 { font: italic 300 clamp(6rem, 30vw, 16rem)/.9 var(--serif); letter-spacing: -.03em; }
+.titlecard p { margin-top: 1rem; font: italic 300 1.25rem var(--serif); color: var(--muted); }
+
+/* ===== História ===== */
+.counter { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1.2rem 2rem; width: 100%; max-width: 34rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.counter div { display: flex; flex-direction: column; }
+.counter div:first-child { flex: 1 0 100%; }
+.counter b { font: 300 clamp(1.8rem, 7vw, 2.4rem)/1 var(--serif); font-variant-numeric: tabular-nums lining-nums; }
+.counter div:first-child b { font-size: clamp(4.5rem, 22vw, 9rem); letter-spacing: -.03em; }
+.counter small { margin-top: .4rem; font: 400 .8rem var(--sans); letter-spacing: .02em; color: var(--muted); }
+
+/* ===== Cenas (fotos e vídeo) =====
+   Cada foto aparece inteira, na proporção original (definida no config.js). */
+.strip {
+  display: flex; align-items: flex-start; gap: 1.2rem; width: calc(100% + 2 * var(--gx)); max-width: none;
+  margin-inline: calc(-1 * var(--gx)); padding-inline: var(--gx); scroll-padding-inline: var(--gx);
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.strip::-webkit-scrollbar { display: none; }
+.frame { flex: 0 0 auto; scroll-snap-align: start; }
+.imgwrap {
+  position: relative; overflow: hidden; height: min(52dvh, 34rem); aspect-ratio: 4 / 5;
+  max-width: calc(100vw - 2 * var(--gx)); background: #161413;
+}
+.imgwrap img, .imgwrap video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ph { position: absolute; inset: 0; display: grid; place-items: center; font: 400 .85rem var(--sans); color: var(--muted); }
+.frame figcaption { margin-top: .8rem; max-width: 22rem; font: italic 300 1.1rem/1.35 var(--serif); }
+
+/* ===== Trilha sonora ===== */
+.bar-track { width: min(100%, 28rem); height: 2px; background: var(--line); }
+#barFill { height: 100%; width: 0; background: var(--text); }
+
+/* ===== Carta ===== */
+.seal {
+  width: 4.5rem; height: 4.5rem; border: 0; border-radius: 50%; cursor: pointer;
+  background: var(--wine); color: var(--text); font: italic 300 1.8rem var(--serif);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.seal:hover, .seal:focus-visible { transform: scale(1.05); outline: none; }
+.seal.broken { opacity: 0; transform: scale(.9); }
+.paper { max-width: 34rem; font: 300 clamp(1.15rem, 4.4vw, 1.35rem)/1.7 var(--serif); }
+.paper p { margin-bottom: 1.1rem; opacity: 0; animation: fadein 1s ease forwards; animation-delay: var(--d); }
+.paper p:first-child, .paper p:last-child { font-style: italic; color: var(--rose); }
+.paper p:last-child { margin-bottom: 0; }
+
+/* ===== Créditos e final ===== */
+.credits-wrap {
+  position: relative; width: 100%; height: 56dvh; overflow: hidden;
+  -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+}
+.credits-wrap.done { -webkit-mask-image: none; mask-image: none; }
+.credits-wrap.done .credits { display: none; }
+.credits { position: absolute; left: 0; right: 0; top: 0; animation: roll 32s linear 1s forwards; animation-play-state: paused; }
+.scene.active .credits { animation-play-state: running; }
+@keyframes roll { from { transform: translateY(56dvh); } to { transform: translateY(-100%); } }
+.credits .row { margin-bottom: 2.2rem; }
+.credits small { display: block; margin-bottom: .3rem; font: 400 .85rem var(--sans); letter-spacing: .02em; color: var(--muted); }
+.credits span { font: 300 clamp(1.5rem, 5.5vw, 2.1rem)/1.2 var(--serif); }
+.finale {
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 1.2rem;
+  opacity: 0; pointer-events: none; transition: opacity 1.6s ease;
+}
+.finale.show { opacity: 1; pointer-events: auto; }
+.forever { font: italic 300 clamp(2.2rem, 9vw, 4rem)/1.15 var(--serif); max-width: 16em; }
+.signature { font: 300 1.3rem var(--serif); color: var(--rose); }

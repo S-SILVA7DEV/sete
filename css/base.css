@@ -1,0 +1,68 @@
+/* ===== Variáveis ===== */
+:root {
+  --ink: #0d0d0d;
+  --text: #ece4dc;
+  --muted: #8c8280;
+  --line: #2a2625;
+  --wine: #7a1f33;   /* único acento de cor */
+  --rose: #c9a0a7;   /* só em pequenos detalhes de texto */
+  --serif: "Newsreader", Georgia, serif;
+  --sans: "Inter", system-ui, sans-serif;
+  --header: 3.4rem;
+  --footer: 3.4rem;
+  --gx: max(1.5rem, calc((100vw - 60rem) / 2)); /* margem lateral da grade */
+}
+* { box-sizing: border-box; margin: 0; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  background: var(--ink); color: var(--text); overflow: hidden;
+  font: 300 1rem/1.6 var(--serif); -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Cabeçalho ===== */
+.masthead {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+  height: calc(var(--header) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) var(--gx) 0;
+  display: flex; align-items: center; justify-content: space-between;
+  font: 400 .85rem var(--sans); letter-spacing: .02em; color: var(--muted);
+  opacity: 0; transition: opacity 1s ease;
+}
+.masthead .mark { font: italic 300 1.5rem var(--serif); letter-spacing: 0; color: var(--text); }
+body.ready .masthead { opacity: 1; }
+
+/* ===== Navegação ===== */
+.nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex;
+  height: calc(var(--footer) + env(safe-area-inset-bottom)); padding: 0 var(--gx) env(safe-area-inset-bottom);
+  background: var(--ink); border-top: 1px solid var(--line);
+  opacity: 0; pointer-events: none; transition: opacity 1s ease;
+}
+body.ready .nav { opacity: 1; pointer-events: auto; }
+.nav button {
+  flex: 1; background: none; border: 0; border-top: 1px solid transparent; margin-top: -1px; cursor: pointer;
+  color: var(--muted); font: 400 .82rem var(--sans); letter-spacing: .01em;
+  transition: color .3s, border-color .3s;
+}
+.nav button:hover { color: var(--text); }
+.nav button.on { color: var(--text); border-top-color: var(--text); }
+.nav button:focus-visible { outline: 1px solid var(--rose); outline-offset: -4px; }
+@media (max-width: 480px) { .nav button { font-size: .74rem; } }
+
+/* ===== Texto e botões ===== */
+.kicker { font: 400 .9rem var(--sans); letter-spacing: .02em; color: var(--rose); }
+.muted { font-size: .95rem; color: var(--muted); }
+h2 { font: 300 clamp(2.2rem, 7vw, 3.6rem)/1.1 var(--serif); letter-spacing: -.01em; }
+.lead { font: italic 300 clamp(1.6rem, 6vw, 2.6rem)/1.25 var(--serif); max-width: 22em; }
+.lead.small { font-size: 1.15rem; color: var(--muted); }
+
+.btn {
+  cursor: pointer; background: none; color: var(--text); border: 1px solid #4a4240; padding: .85rem 1.7rem;
+  font: 400 .92rem var(--sans); letter-spacing: .02em;
+  transition: background .3s, color .3s, border-color .3s;
+}
+.btn:hover, .btn:focus-visible { background: var(--text); color: var(--ink); border-color: var(--text); outline: none; }
+.btn.ghost { border: 0; border-bottom: 1px solid var(--line); padding: .5rem 0; color: var(--muted); }
+.btn.ghost:hover, .btn.ghost:focus-visible { background: none; color: var(--text); border-bottom-color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) { *, *::before { animation-duration: .01s !important; transition-duration: .01s !important; } }
